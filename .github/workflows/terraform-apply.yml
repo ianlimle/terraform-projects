@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-18.04
+    env:
+      gcp_credentials: ${{ secrets.GCP_CREDENTIALS }}
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        run: hashicorp/setup-terraform@v1
+
+      - name: Init Terraform
+        id: init
+        run: terraform init
+      
+      - name: Plan Terraform
+        id: plan
+        if: github.event_name == 'push'
+        run: terraform plan -no-color
