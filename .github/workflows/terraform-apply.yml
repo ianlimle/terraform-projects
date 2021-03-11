@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
-        users: actions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terrform@v1
