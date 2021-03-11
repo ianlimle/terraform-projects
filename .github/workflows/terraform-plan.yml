@@ -2,9 +2,9 @@ name: "Terraform-Plan-Infra-Plan"
 
 on:
   push:
-    branches: [ master ]
+    branches: [ dev ]
   pull_request:
-    branches: [ master ]
+    branches: [ dev ]
 
 jobs:
   terraform:
@@ -26,4 +26,6 @@ jobs:
       - name: Plan Terraform
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan -f ./tutorials/main.tf -no-color
+        run: | 
+          cd ./tutorials 
+          terraform plan -no-color
