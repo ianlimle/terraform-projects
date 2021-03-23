@@ -1,12 +1,30 @@
+# terrafrom apply -var-file=secrets.tfvars
 provider "google" {
-
-  credentials = file("ianlimle-projects-56977d3855a2.json")
-  
-  project = "ianlimle-projects"
-  region  = "asia-southeast1"
-  zone    = "asia-southeast1-b"
+  credentials = var.credentials
+  project     = var.project_id
+  region      = var.region
+  zone        = var.avail_zone 
 }
 
+#################################################
+#                   VARIABLES                   #
+#################################################
+variable credentials {
+    description = "credentials file for GCP"
+}
+variable project_id {
+    description = "Project ID in GCP"
+}
+variable region {
+    description = "Resource region in GCP"
+}
+variable avail_zone {
+    description = "Resource availability zone in GCP"
+}
+
+#################################################
+#                  RESOURCES                    #
+#################################################
 resource "google_compute_network" "vpc_network" {
   name    = "dev-vpc"
 }
@@ -69,6 +87,10 @@ resource "google_compute_instance" "vm_instance" {
   }
 }
 
+
+#################################################
+#                  OUTPUTS                      #
+#################################################
 output "dev-vpc-id" {
   value = google_compute_network.vpc_network.id
 }
